@@ -7,6 +7,99 @@
 
 
 
+.wrapper-main {
+    
+    display: flex;
+    justify-content: space-between;
+    
+}
+.acide {
+    width: 370px;
+    display: block;
+
+    text-align: center;
+
+		&__back {
+            max-width: 370px;
+            width: 100%;
+        }
+
+		&__avatar-box {
+            position: relative;
+            margin: 0 auto;
+            width: 100px;
+            height: 100px;
+            background-color: #fff;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: -50px;
+            z-index: 10;
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+
+		&__avatar {
+            width: 95px;
+            height: 95px;
+            border-radius: 50%;
+            overflow: hidden;
+        }
+
+		&__name {
+            text-align: center;
+            font-size: 22px;
+            margin-bottom: 5px;
+        }
+
+		&__descr {
+            color: #DEDEDE;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+		&__soc-list {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            padding-bottom: 20px;
+            margin-bottom: 10px;
+            border-bottom: 2px solid #352f2f;
+        }
+
+		&__soc-item {
+            width: 30px;
+            height: 30px;
+
+        }
+
+		&__soc-link {}
+
+		&__soc-img {
+            width: 100%;
+            height: 100%;
+        }
+
+		&__text {
+            text-align: center;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #352f2f;
+        }
+
+		&__button {
+            color: #fff;
+            background-color: #3137C9;
+            border-radius: 25px;
+            padding: 15px 20px;
+            display: inline-block;
+        }
+}
+.main {
+}
+
 
 
 
