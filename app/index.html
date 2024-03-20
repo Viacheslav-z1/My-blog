@@ -5,6 +5,24 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lato&display=swap" rel="stylesheet">
+
+
+
+<!-- Firebase JavaScript SDK без модульности -->
+<script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-auth-compat.js"></script>
+<!-- Другие модули Firebase, если они нужны -->
+
+
+
   <title>My blog</title>
   <link rel="stylesheet" href="css/style.min.css">
 </head>
@@ -12,7 +30,7 @@
 <body>
 
   <div class="wrapper-main">
-    <div class="container">
+    <div class="container wrapper-container">
       <acide class="acide">
         <img src="./images/acide_back.jpg" alt="acideimg" class="acide__back">
         <div class="acide__avatar-box">
@@ -21,21 +39,21 @@
         <h2 class="acide__name">Viacheslav Zalotnyi</h2>
         <p class="acide__descr">
           Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-          
+
         </p>
         <ul class="acide__soc-list">
           <li class="acide__soc-item">
-            <a href="#" class="acide__soc-link">
+            <a target="_blank" href="https://www.instagram.com/slavikqwx/" class="acide__soc-link">
               <img src="./images/inst.svg" alt="logo" class="acide__soc-img">
             </a>
           </li>
           <li class="acide__soc-item">
-            <a href="#" class="acide__soc-link">
+            <a target="_blank" href="#" class="acide__soc-link">
               <img src="./images/link.webp" alt="logo" class="acide__soc-img">
             </a>
           </li>
           <li class="acide__soc-item">
-            <a href="#" class="acide__soc-link">
+            <a target="_blank" href="https://t.me/z_slavik_z" class="acide__soc-link">
               <img src="./images/tg.png" alt="logo" class="acide__soc-img">
             </a>
           </li>
@@ -45,16 +63,172 @@
           quae
           suscipit ex, nobis nam a neque aspernatur ut illum velit natus reiciendis, necessitatibus accusantium ipsam?
         </p>
-        <a href="#" class="acide__button">
+        <a href="https://t.me/z_slavik_z" target="_blank" class="acide__button">
           Написати мені
         </a>
       </acide>
-      <main class="main"></main>
+      <main class="main">
+        <header class="header">
+          <nav class="menu">
+            <ul class="menu__list">
+              <li class="menu__item">
+                <a href="#" class="menu__link">Головна</a>
+              </li>
+              <li class="menu__item">
+                <a href="#" class="menu__link">Статті</a>
+              </li>
+              <li class="menu__item">
+                <a href="#" class="menu__link">Про мене</a>
+              </li>
+              <li class="menu__item">
+                <a href="#" class="menu__link">Реклама</a>
+              </li>
+            </ul>
+          </nav>
+          <div class="header__buttons">
+            <div id="signupbtn" class="header__item">
+              <a href="#" class="menu__link open_reg-modal">Увійти/Зарєструватись</a>
+            </div>
+            <div class="header__item">
+              <a href="#" class="menu__link">Реклама</a>
+            </div>
+          </div>
+        </header>
+
+        <ul class="galery">
+          <li class="galery__item">
+            <img src="./images/1.jpg" alt="" class="galery__img">
+            <p class="galery__text">
+              21.09.2023
+            </p>
+          </li>
+          <li class="galery__item">
+            <img src="./images/2.jpg" alt="" class="galery__img">
+            <p class="galery__text">
+              02.01.2023
+            </p>
+          </li>
+          <li class="galery__item">
+            <img src="./images/3.jpg" alt="" class="galery__img">
+            <p class="galery__text">
+              23.01.2023
+            </p>
+          </li>
+          <li class="galery__item">
+            <img src="./images/4.jpg" alt="" class="galery__img">
+            <p class="galery__text">
+              21.02.2023
+            </p>
+          </li>
+          <li class="galery__item">
+            <img src="./images/3.jpg" alt="" class="galery__img">
+            <p class="galery__text">
+              23.01.2023
+            </p>
+          </li>
+
+        </ul>
+
+
+
+        <div id="inputbox" class="input__box hide">
+          <input class="input" type="text" placeholder="Напишіть щось...">
+          <button class="input__btn" type="submit">
+            <img class="submit__img" src="./images/seend.svg" alt="send">
+          </button>
+        </div>
+
+
+        <ul class="posts">
+          <li>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Elementum volutpat orci turpis urna. Et
+              vestibulum, posuere tortor lacinia sit. Sagittis porttitor orci auctor in at tincidunt arcu egestas. Fusce
+              arcu sodales lacinia eu auctor nunc nam id. Diam sit sed volutpat massa. Egestas ornare vel volutpat.</p>
+            <div class="date">
+              21.02.2023
+            </div>
+          </li>
+
+          <li>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Elementum volutpat orci turpis urna. Et
+              vestibulum, posuere tortor lacinia sit. Sagittis porttitor orci auctor in at tincidunt arcu egestas. Fusce
+              arcu sodales lacinia eu auctor nunc nam id. Diam sit sed volutpat massa. Egestas ornare vel volutpat.</p>
+            <div class="date">
+              21.02.2023
+            </div>
+          </li>
+
+
+          <li>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Elementum volutpat orci turpis urna. Et
+              vestibulum, posuere tortor lacinia sit. Sagittis porttitor orci auctor in at tincidunt arcu egestas. Fusce
+              arcu sodales lacinia eu auctor nunc nam id. Diam sit sed volutpat massa. Egestas ornare vel volutpat.</p>
+            <div class="date">
+              21.02.2023
+            </div>
+          </li>
+        </ul>
+
+
+
+      </main>
     </div>
   </div>
 
 
-  <script src="js/main.min.js"></script>
+
+  <div class="modal">
+
+    <button class="modal__close-btn">
+      Закрити
+    </button>
+
+    <div class="modal__wrapper">
+      <div class="modal__sign-up">
+        <p class="modal__text-info">
+          Реєстрація
+        </p>
+        <form id="register-form" class="modal__sign-up-form">
+          <p class="modal__descr">Введіть вашу пошту</p>
+          <input id="registerPost" placeholder="yourpost@g.com*" type="text" class="madal__sign-up-mail">
+          <p class="modal__descr">Введіть Ваше ім'я</p>
+          <input placeholder="Ваше ім'я" type="text" class="madal__sign-up-name">
+          <p class="modal__descr">Введіть Ваше прізвище</p>
+          <input placeholder="Ваше прізвище" type="text" class="madal__sign-up-lastname">
+          <p class="modal__descr">Введіть Пароль</p>
+          <input id="registerPassw" placeholder="******" type="text" class="madal__sign-up-pass">
+
+          <button id="register" class="modal__sign-up-btn" type="submit">
+            Зареєструватись
+          </button>
+          <a href="#" class="modal-login-btn">
+            Вже є обліковий запис? Увійти
+          </a>
+        </form>
+      </div>
+
+      <div class="modal__sign-in hide">
+        <p class="modal__text-info">
+          Вхід
+        </p>
+        <form class="modal__sign-in-form">
+          <p class="modal__descr">Введіть вашу пошту</p>
+          <input placeholder="post@g.com" type="text" class="madal__sign-in-mail">
+          <p class="modal__descr">Введіть Пароль</p>
+          <input placeholder="******" type="text" class="madal__sign-in-pass">
+          <button class="modal__sign-in-btn" type="submit">
+            Увійти
+          </button>
+          <a href="#" class="modal-register-btn">
+            Ще немає аккаунту? Зареєструватись
+          </a>
+        </form>
+      </div>
+    </div>
+  </div>
+
+
+  <script type="module" src="js/main.min.js"></script>
 </body>
 
 </html>
