@@ -149,57 +149,12 @@ function showUserInfo(firstName, lastName) {
 }
 
 
-
-
-
-
-
-// /**registration user */
-// function registerUser(email, password) {
-//     return createUserWithEmailAndPassword(getAuth(app), email, password);
-// }
-
 let regBtn = document.querySelector('#register');
 
 regBtn.addEventListener('click', function (e) {
     e.preventDefault();
     register()
 })
-// function register() {
-//     const email = document.querySelector('#registerPost').value;
-//     const password = document.querySelector('#registerPassw').value;
-//     console.log(email, password);
-//     registerUser(email, password)
-//         .then((userCredential) => {
-//             // Успешная регистрация
-//             console.log('User registered:', userCredential.user);
-//               // Сохраняем данные об аутентификации пользователя в локальном хранилище
-//               localStorage.setItem('user', JSON.stringify({ email, password }));
-
-//             // Отслеживание изменений состояния авторизации пользователя
-//             firebase.auth().onAuthStateChanged(function (user) {
-//                 if (user) {
-//                     // Пользователь авторизован
-//                     console.log('User is logged in');
-//                     showLoggedInInterface()
-//                     // Здесь вы можете выполнить необходимые действия для авторизованного пользователя
-//                 } else {
-//                     // Пользователь не авторизован
-//                     console.log('User is not logged in');
-//                     // Здесь вы можете выполнить необходимые действия для неавторизованного пользователя
-//                 }
-//             });
-//         })
-//         .catch((error) => {
-//             // Обработка ошибок при регистрации
-//             console.error('Registration error:', error.message);
-//         });
-
-// }
-
-
-
-// Получение ссылки на базу данных Firestore
 
 
 function register() {
@@ -207,34 +162,6 @@ function register() {
     const password = document.querySelector('#registerPassw').value;
     const firstName = document.querySelector('#firstName').value;
     const lastName = document.querySelector('#lastName').value;
-
-    // registerUser(email, password, firstName, lastName)
-    //     .then((userCredential) => {
-    //         // Успешная регистрация
-    //         console.log('User registered:', userCredential.user);
-
-    //         // Сохраняем данные об аутентификации пользователя в локальном хранилище
-    //         localStorage.setItem('user', JSON.stringify({ email, password }));
-
-    //         // Отслеживание изменений состояния авторизации пользователя
-    //         firebase.auth().onAuthStateChanged(function (user) {
-    //             if (user) {
-    //                 // Пользователь авторизован
-    //                 console.log('User is logged in');
-    //                 showLoggedInInterface()
-    //                 // Здесь вы можете выполнить необходимые действия для авторизованного пользователя
-    //             } else {
-    //                 // Пользователь не авторизован
-    //                 console.log('User is not logged in');
-    //                 // Здесь вы можете выполнить необходимые действия для неавторизованного пользователя
-    //             }
-    //         });
-    //     })
-    //     .catch((error) => {
-    //         // Обработка ошибок при регистрации
-    //         console.error('Registration error:', error.message);
-    //     });
-
 
     registerUser(email, password, firstName, lastName);
 
