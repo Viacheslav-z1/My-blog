@@ -19,6 +19,7 @@
 <!-- Firebase JavaScript SDK без модульности -->
 <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore-compat.js"></script>
 <!-- Другие модули Firebase, если они нужны -->
 
 
@@ -89,8 +90,9 @@
             <div id="signupbtn" class="header__item">
               <a href="#" class="menu__link open_reg-modal">Увійти/Зарєструватись</a>
             </div>
-            <div class="header__item">
-              <a href="#" class="menu__link">Реклама</a>
+            <div class="" id="userInfo"></div>
+            <div id="logout" class="header__item hide">
+              <a href="#" class="menu__link">Вийти</a>
             </div>
           </div>
         </header>
@@ -192,9 +194,9 @@
           <p class="modal__descr">Введіть вашу пошту</p>
           <input id="registerPost" placeholder="yourpost@g.com*" type="text" class="madal__sign-up-mail">
           <p class="modal__descr">Введіть Ваше ім'я</p>
-          <input placeholder="Ваше ім'я" type="text" class="madal__sign-up-name">
+          <input id="firstName" placeholder="Ваше ім'я" type="text" class="madal__sign-up-name">
           <p class="modal__descr">Введіть Ваше прізвище</p>
-          <input placeholder="Ваше прізвище" type="text" class="madal__sign-up-lastname">
+          <input id="lastName" placeholder="Ваше прізвище" type="text" class="madal__sign-up-lastname">
           <p class="modal__descr">Введіть Пароль</p>
           <input id="registerPassw" placeholder="******" type="text" class="madal__sign-up-pass">
 
@@ -213,10 +215,10 @@
         </p>
         <form class="modal__sign-in-form">
           <p class="modal__descr">Введіть вашу пошту</p>
-          <input placeholder="post@g.com" type="text" class="madal__sign-in-mail">
+          <input id="login-mail" placeholder="post@g.com" type="text" class="madal__sign-in-mail">
           <p class="modal__descr">Введіть Пароль</p>
-          <input placeholder="******" type="text" class="madal__sign-in-pass">
-          <button class="modal__sign-in-btn" type="submit">
+          <input id="login-pass" placeholder="******" type="text" class="madal__sign-in-pass">
+          <button id="login-btn" class="modal__sign-in-btn" type="submit">
             Увійти
           </button>
           <a href="#" class="modal-register-btn">
