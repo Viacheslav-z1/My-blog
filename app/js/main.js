@@ -1,4 +1,9 @@
 /**Autologin */
+
+let userName = '';
+
+
+
 window.addEventListener('DOMContentLoaded', () => {
     // Получаем данные о текущем пользователе из локального хранилища
     const user = JSON.parse(localStorage.getItem('user'));
@@ -31,29 +36,35 @@ window.addEventListener('DOMContentLoaded', () => {
 });
 
 
-
+/**modal window logik */
 const openModalBtn = document.querySelector('.open_reg-modal');
 const modal = document.querySelector('.modal');
-const closeModal = document.querySelector('.modal__close-btn');
-
-
-openModalBtn.addEventListener('click', function (e) {
-    e.preventDefault();
-    modal.classList.add('open');
-});
-
-closeModal.addEventListener('click', function (e) {
-    e.preventDefault();
-    modal.classList.remove('open');
-});
-
-
+const closeModalBtn = document.querySelector('.modal__close-btn');
 
 const regNodde = document.querySelector('.modal__sign-up');
 const loginNode = document.querySelector('.modal__sign-in');
-
 const linkToRegNode = document.querySelector('.modal-register-btn');
 const linkToLoginNode = document.querySelector('.modal-login-btn');
+
+const loader = document.querySelector('.loader-box');
+
+
+function openModal(){
+    modal.classList.add('open');
+}
+function closeModal(){
+    modal.classList.remove('open');
+}
+
+openModalBtn.addEventListener('click', function (e) {
+    e.preventDefault();
+    openModal()
+});
+
+closeModalBtn.addEventListener('click', function (e) {
+    e.preventDefault();
+    closeModal()
+});
 
 linkToRegNode.addEventListener('click', function (e) {
     e.preventDefault();
@@ -68,11 +79,38 @@ linkToLoginNode.addEventListener('click', function (e) {
 
 
 
-/**
- functions for logged/nologged users  (change intarface)
- */
+const closeMenu = document.querySelector('.header_close_btn');
+const headerNode = document.querySelector('.header');
+const openMunuNode = document.querySelector('.open__menu-btn');
+function closeMenuFunc(){
+    headerNode.classList.remove('look')
+}
+function openMenuFunc(){
+    headerNode.classList.add('look')
+}
+
+closeMenu.addEventListener('click',()=>{
+    closeMenuFunc();
+})
+openMunuNode.addEventListener('click',()=>{
+    openMenuFunc()
+})
 
 
+
+
+
+
+/**functions show/hide loader */
+
+function showLoader(){
+    loader.classList.remove('hide')
+}
+function hideLoader(){
+    loader.classList.add('hide')
+}
+
+/**functions for logged/nologged users  (change intarface)*/
 
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-app.js";
@@ -93,28 +131,22 @@ firebase.initializeApp(firebaseConfig);
 
 
 
-
 /**functions for change intarface for login/logout state account */
 const signupBtnNode = document.querySelector('#signupbtn');
 const inputBox = document.querySelector('#inputbox');
 const logoutBtn = document.querySelector('#logout');
 
 function showLoggedInInterface() {
-
     signupBtnNode.classList.add('hide');
     inputBox.classList.remove('hide');
     logoutBtn.classList.remove('hide')
-
 }
 
 /**functions for change intarface for logout state account */
-
 function showLogoutInInterface() {
-
     signupBtnNode.classList.remove('hide');
     inputBox.classList.add('hide');
     logoutBtn.classList.add('hide')
-
 }
 
 
@@ -138,6 +170,7 @@ function getUserInfo(userId) {
         })
         .catch((error) => {
             console.log("Error getting document:", error);
+            hideLoader();
             return null;
         });
 }
@@ -146,16 +179,16 @@ function getUserInfo(userId) {
 function showUserInfo(firstName, lastName) {
     const userInfoContainer = document.getElementById('userInfo');
     userInfoContainer.innerHTML = `Привіт, ${firstName} ${lastName}!`;
+    userName = `${firstName}  ${lastName}`;
 }
 
 
+/**register logik */
 let regBtn = document.querySelector('#register');
-
 regBtn.addEventListener('click', function (e) {
     e.preventDefault();
     register()
 })
-
 
 function register() {
     const email = document.querySelector('#registerPost').value;
@@ -168,7 +201,7 @@ function register() {
     function registerUser(email, password, firstName, lastName) {
         const auth = firebase.auth();
         const db = firebase.firestore();
-
+        showLoader();
         console.log(email, password, firstName, lastName);
         return new Promise((resolve, reject) => {
             auth.createUserWithEmailAndPassword(email, password)
@@ -176,6 +209,7 @@ function register() {
                     // Успешная регистрация
                     const user = userCredential.user;
                     console.log('User registered:', user);
+                    closeModal();
                     localStorage.setItem('user', JSON.stringify({ email, password }));
 
 
@@ -185,14 +219,14 @@ function register() {
                             console.log('User is logged in');
                             showLoggedInInterface()
                             getUserInfo(user.uid)
-                            .then((userInfo) => {
-                                if (userInfo) {
-                                    // Отображаем информацию о пользователе на странице
-                                    showUserInfo(userInfo.firstName, userInfo.lastName);
-                                } else {
-                                    console.log('User info not found');
-                                }
-                            });
+                                .then((userInfo) => {
+                                    if (userInfo) {
+                                        // Отображаем информацию о пользователе на странице
+                                        showUserInfo(userInfo.firstName, userInfo.lastName);
+                                    } else {
+                                        console.log('User info not found');
+                                    }
+                                });
                             // Здесь вы можете выполнить необходимые действия для авторизованного пользователя
                         } else {
                             // Пользователь не авторизован
@@ -200,7 +234,7 @@ function register() {
                             // Здесь вы можете выполнить необходимые действия для неавторизованного пользователя
                         }
                     });
-                    
+
                     // Сохраняем дополнительные данные о пользователе в базе данных Firebase
                     const userRef = db.collection('users').doc(user.uid);
                     userRef.set({
@@ -210,6 +244,7 @@ function register() {
                         // Другие поля, которые вы хотите сохранить
                     }).then(() => {
                         console.log('User data saved to database');
+                        hideLoader();
                         resolve(userCredential);
                     }).catch((error) => {
                         console.error('Error saving user data to database:', error.message);
@@ -219,7 +254,9 @@ function register() {
                 .catch((error) => {
                     // Ошибка регистрации
                     console.error('Registration error:', error.message);
+                    hideLoader();
                     reject(error);
+                    
                 });
         });
     }
@@ -238,7 +275,7 @@ document.getElementById('login-btn').addEventListener('click', function (event) 
     event.preventDefault();
     const email = document.getElementById('login-mail').value;
     const password = document.getElementById('login-pass').value;
-
+    showLoader();
     firebase.auth().signInWithEmailAndPassword(email, password)
         .then((userCredential) => {
             // Успешный вход
@@ -247,7 +284,7 @@ document.getElementById('login-btn').addEventListener('click', function (event) 
             showLoggedInInterface()
             localStorage.setItem('user', JSON.stringify({ email, password }));
             // Перенаправление на другую страницу или выполнение других действий после успешного входа
-
+            closeModal();
             getUserInfo(user.uid)
                 .then((userInfo) => {
                     if (userInfo) {
@@ -257,7 +294,7 @@ document.getElementById('login-btn').addEventListener('click', function (event) 
                         console.log('User info not found');
                     }
                 });
-
+                hideLoader();
 
         })
         .catch((error) => {
@@ -265,6 +302,7 @@ document.getElementById('login-btn').addEventListener('click', function (event) 
             console.error('Login error:', error.message);
             // Отображение сообщения об ошибке пользователю
             alert('Login error: ' + error.message);
+            hideLoader();
         });
 });
 
@@ -276,6 +314,7 @@ document.getElementById('login-btn').addEventListener('click', function (event) 
 /**logout logik */
 // Обработка нажатия кнопки выхода из аккаунта
 document.getElementById('logout').addEventListener('click', function () {
+    showLoader();
     firebase.auth().signOut()
         .then(() => {
             // Успешный выход из аккаунта
@@ -284,6 +323,7 @@ document.getElementById('logout').addEventListener('click', function () {
             showLogoutInInterface();
             const userInfoContainer = document.getElementById('userInfo');
             userInfoContainer.innerHTML = ``;
+            hideLoader();
             // Дополнительные действия после выхода из аккаунта, например, перенаправление на другую страницу
         })
         .catch((error) => {
@@ -293,3 +333,103 @@ document.getElementById('logout').addEventListener('click', function () {
             alert('Logout error: ' + error.message);
         });
 });
+
+
+
+
+
+
+/**add posts */
+const db = firebase.firestore();
+const postsRef = db.collection('posts');
+
+// Обработчик отправки формы
+document.querySelector('.input__btn').addEventListener('click', function (event) {
+    event.preventDefault();
+
+
+    /**formated date */
+    // Получение данных из формы
+    const title = document.querySelector('.input').value;
+
+    // Сохранение поста в Firestore
+    const timestamp = firebase.firestore.Timestamp.now().toDate();
+
+    // Преобразуем дату в нужный формат
+    const day = timestamp.getDate();
+    const month = timestamp.getMonth() + 1; // Добавляем 1, так как месяцы в JavaScript начинаются с 0
+    const year = timestamp.getFullYear();
+    const hours = timestamp.getHours();
+    const minutes = timestamp.getMinutes();
+
+    // Добавляем нули перед числами, если они состоят из одной цифры
+    const formattedDay = day < 10 ? '0' + day : day;
+    const formattedMonth = month < 10 ? '0' + month : month;
+
+
+    postsRef.add({
+        title: title,
+        userName: userName,
+        timestamp: `${formattedDay}.${formattedMonth}.${year}  ${hours}:${minutes}`,
+        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+    })
+        .then((docRef) => {
+            console.log('Post added with ID: ', docRef.id);
+            getPosts();
+            // Очистка формы после добавления поста
+            document.querySelector('.input').value = '';
+        })
+        .catch((error) => {
+            console.error('Error adding post: ', error);
+        });
+});
+
+
+
+
+
+
+
+/**get posts */
+
+
+
+
+// Получаем все документы из коллекции постов
+function getPosts() {
+    const db = firebase.firestore();
+    const postsRef = db.collection('posts');
+    showLoader();
+    // Получаем все документы из коллекции постов
+    postsRef.get().then((querySnapshot) => {
+        let contentHtml = '';
+        // Обрабатываем каждый документ
+        querySnapshot.forEach((doc) => {
+            const post = doc.data(); // Данные текущего поста
+            const postId = doc.id; // ID текущего поста
+            let postHtml = `
+            <li>
+            <p>${post.title}</p>
+            <div class="date">
+            
+              <div>${post.timestamp}</div>
+              <div>${post.userName}</div>
+            </div>
+          </li>
+            `;
+
+
+            contentHtml = contentHtml + postHtml;
+          
+            // Вставляем HTML-разметку поста на страницу
+
+        });
+        document.querySelector('.posts').innerHTML = contentHtml;
+        hideLoader();
+    }).catch((error) => {
+        console.error('Error getting posts:', error);
+    });
+}
+
+// Вызываем функцию для получения и отображения постов при загрузке страницы
+document.addEventListener('DOMContentLoaded', getPosts);
